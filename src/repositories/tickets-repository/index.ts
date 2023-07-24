@@ -10,7 +10,7 @@ async function findTicketByEnrollmentId(enrollmentId: number) {
   return prisma.ticket.findFirst({
     where: { enrollmentId },
     include: {
-      TicketType: true
+      TicketType: true,
     },
   });
 }
@@ -54,6 +54,25 @@ async function ticketProcessPayment(ticketId: number) {
   });
 }
 
+async function findTicketByUserId(userId: number) {
+  return prisma.ticket.findFirst({
+    where: {
+      Enrollment: {
+        userId,
+      },
+    },
+    select: {
+      status: true,
+      TicketType: {
+        select: {
+          includesHotel: true,
+          isRemote: true,
+        },
+      },
+    },
+  });
+}
+
 export default {
   findTicketTypes,
   findTicketByEnrollmentId,
@@ -61,4 +80,5 @@ export default {
   findTickeyById,
   findTickeWithTypeById,
   ticketProcessPayment,
+  findTicketByUserId,
 };
