@@ -10,7 +10,7 @@ import {
   createPayment,
   createRoomWithHotelId,
   createTicket,
-  createTicketTypeRemote,
+  createTicketTypeRemote, 
   createTicketTypeWithHotel,
   createUser,
 } from '../factories';

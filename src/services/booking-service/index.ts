@@ -5,19 +5,7 @@ import bookingRepository from '@/repositories/booking-repository';
 import { noVacancyError } from '@/errors/no-vacancy-error';
 import roomRepository from '@/repositories/room-repository';
 
-async function getRooms(userId: number) {
-  const booking = await bookingRepository.findReserveByUserId(userId);
-
-  if (!booking) {
-    throw notFoundError();
-  }
-  return {
-    id: booking.id,
-    Room: booking.Room,
-  };
-}
-
-async function makeReseve(userId: number, roomId: number) {
+async function reserveRoom(userId: number, roomId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) {
     throw notFoundError();
@@ -27,23 +15,32 @@ async function makeReseve(userId: number, roomId: number) {
   if (!ticket || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote) {
     throw noVacancyError();
   }
-
   const room = await roomRepository.findRoomById(roomId);
   const reservesFromRoom = await bookingRepository.getBookingByRoomId(roomId);
-  // verificar se o quarto nao existe 404
   if (!room) {
     throw notFoundError();
   }
-  // verificar se o quarto possui vagas 403
   if (room.capacity === reservesFromRoom) {
     throw noVacancyError();
   }
-
   const booking = await bookingRepository.create(userId, roomId);
   return booking.id;
 }
 
-async function changeRoom(userId: number, bookingId: number, roomId: number) {
+async function getRoomsByUserId(userId: number) {
+  const booking = await bookingRepository.findReserveByUserId(userId);
+  if (!booking) {
+    throw notFoundError();
+  }
+  return {
+    id: booking.id,
+    Room: booking.Room,
+  };
+}
+
+
+
+async function changeReservation(userId: number, bookingId: number, roomId: number) {
   if (!bookingId) {
     throw noVacancyError();
   }
@@ -51,19 +48,15 @@ async function changeRoom(userId: number, bookingId: number, roomId: number) {
   if (!oldReserve) {
     throw noVacancyError();
   }
-
   const room = await roomRepository.findRoomById(roomId);
-
   if (!room) {
     throw notFoundError();
   }
   const reservesFromRoom = await bookingRepository.getBookingByRoomId(roomId);
-
   if (room.capacity === reservesFromRoom) {
-    console.log('retorna 403 se o quarto nao tem vagas?');
     throw noVacancyError();
   }
-  const existingBooking = await bookingRepository.findUnique(bookingId);
+  const existingBooking = await bookingRepository.findBookById(bookingId);
   if (!existingBooking) {
     throw notFoundError();
   }
@@ -74,9 +67,9 @@ async function changeRoom(userId: number, bookingId: number, roomId: number) {
 }
 
 const bookingService = {
-  getRooms,
-  makeReseve,
-  changeRoom,
+  getRoomsByUserId,
+  reserveRoom,
+  changeReservation,
 };
 
 export default bookingService;
