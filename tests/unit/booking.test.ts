@@ -1,8 +1,6 @@
-import ticketsRepository from "@/repositories/tickets-repository"
 import  bookingService from "@/services/booking-service/index";
 import  bookingRepository  from "@/repositories/booking-repository/index"
 import faker from "@faker-js/faker"
-import { Ticket, TicketType } from "@prisma/client"
 import hotelRepository from "@/repositories/hotel-repository"
 
 beforeEach(() => {
