@@ -5,6 +5,9 @@ Back-end for Driven.t, an event management solution.
 ## About
 
 Driven.t is a web browser application with which you can manage every single aspect of your event.
+It is built using TypeScript and Prisma, it uses postgresql on the database.
+
+On this project i have applied unit and integration tests and you can run them with the tutorial below.
 
 ## How to run for development
 
