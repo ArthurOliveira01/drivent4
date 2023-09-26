@@ -9,6 +9,13 @@ It is built using TypeScript and Prisma, it uses postgresql on the database.
 
 On this project i have applied unit and integration tests and you can run them with the tutorial below.
 
+## Technologies Used
+
+<img src="https://expressjs.com/images/express-facebook-share.png" alt="Express Logo" width="32" height="32">
+<img src="https://nodejs.org/static/images/logo.svg" alt="Node.js Logo" width="32" height="32">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/32px-Typescript_logo_2020.svg.png" alt="TypeScript Logo" width="32" height="32">
+<img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Logo" width="32" height="32">
+
 ## How to run for development
 
 1. Clone this repository
